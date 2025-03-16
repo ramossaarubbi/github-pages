@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbine Engine Midterm Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .quiz-container { max-width: 800px; margin: auto; }
+        .question { font-weight: bold; margin-top: 20px; }
+        .options label { display: block; margin-bottom: 5px; }
+        .result { margin-top: 20px; font-weight: bold; }
+        button { margin-top: 10px; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h2>Turbine Engine Midterm Quiz</h2>
+    <form id="quizForm">
+        <div id="questions"></div>
+        <button type="button" onclick="submitQuiz()">Submit Answers</button>
+    </form>
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    const questions = [
+    { q: "1. Helicopters typically have an inlet duct with which shape?", options: ["Convergent", "Divergent", "Bell mouth", "Straight"], answer: "Bell mouth" },
+    { q: "2. The inlet is identified as which station number?", options: ["One", "Two", "Three", "Four"], answer: "One" },
+    { q: "3. Thrust reversers are actuated by?", options: ["Electric motors", "Pneumatic or hydraulic pressure", "Fuel pressure", "Mechanical linkages"], answer: "Pneumatic or hydraulic pressure" },
+    { q: "4. The highest velocity in a jet engine is found in?", options: ["Compressor exit", "Combustion chamber", "Turbine inlet guide vanes", "Exhaust nozzle"], answer: "Turbine inlet guide vanes" },
+    { q: "5. Where would you find the Pt2 probe?", options: ["Before first stage of compression", "After first stage of compression", "Turbine section", "Combustion chamber"], answer: "Before first stage of compression" },
+    { q: "6. Two types of thrust reversers are:", options: ["Mechanical and Aerodynamic", "Hydraulic and Electrical", "Forward and Aft", "Divergent and Convergent"], answer: "Mechanical and Aerodynamic" },
+    { q: "7. The first set of turbine rotors drive which compressor?", options: ["N1 (low-pressure)", "N2 (high-pressure)", "Intermediate", "Fan"], answer: "N2 (high-pressure)" },
+    { q: "8. What component straightens exhaust gases into a solid jet?", options: ["Exhaust cone assembly", "Stator vanes", "Nozzle guide vanes", "Diffuser"], answer: "Exhaust cone assembly" },
+    { q: "9. Three sections of the cold section are:", options: ["Compressor, turbine, exhaust", "Inlet, compressor, diffuser", "Compressor, combustor, diffuser", "Inlet, turbine, exhaust"], answer: "Inlet, compressor, diffuser" },
+    { q: "10. Events of the Brayton cycle?", options: ["Intake, compression, combustion, exhaust", "Compression, ignition, expansion, exhaust", "Intake, compression, expansion, exhaust", "Intake, combustion, expansion, thrust"], answer: "Intake, compression, expansion, exhaust" },
+    { q: "11. The rate of doing work per unit of time is called?", options: ["Force", "Power", "Work", "Acceleration"], answer: "Power" },
+    { q: "12. How are compressor blades attached to the disk in a turbine engine?", options: ["Bolts", "Dovetail", "Screws", "Welded joints"], answer: "Dovetail" },
+    { q: "13. The velocity of subsonic air through a convergent nozzle will?", options: ["Increase", "Decrease", "Remain constant", "Change unpredictably"], answer: "Increase" },
+    { q: "14. Older turbine-powered airplanes used which method to reduce FOD?", options: ["Inlet screens", "Vortex dissipators", "Bleed air ejectors", "Suction fans"], answer: "Vortex dissipators" },
+    { q: "15. Who patented the first jet engine?", options: ["Nikola Tesla", "Frank Whittle", "Hans von Ohain", "Wright Brothers"], answer: "Frank Whittle" },
+    { q: "16. The power output of a jet engine is rated in?", options: ["Horsepower", "Watts", "Pounds of thrust", "Kilowatts"], answer: "Pounds of thrust" },
+    { q: "17. What happens to the pressure of supersonic air through a convergent nozzle?", options: ["Increases", "Decreases", "Stays the same", "Becomes unstable"], answer: "Increases" },
+    { q: "18. Why is the Fn less than the Fg?", options: ["The velocity or the acceleration has changed", "Fuel pressure decreased", "Compressor speed increased", "Thrust coefficient reduced"], answer: "The velocity or the acceleration has changed" },
+    { q: "19. How are turbofan engines classified?", options: ["By thrust output", "By bypass ratio", "By turbine stages", "By pressure ratio"], answer: "By bypass ratio" },
+    { q: "20. How does a turboprop engine allow the prop to operate at a lower RPM?", options: ["By using a gearbox", "By using a free power turbine", "By reducing fuel flow", "By increasing compressor speed"], answer: "By using a free power turbine" },
+    { q: "21. What are blow-in doors?", options: ["Additional air inlets for takeoff in older aircraft", "A type of thrust reverser", "High-pressure compressor valves", "Fuel exhaust valves"], answer: "Additional air inlets for takeoff in older aircraft" },
+    { q: "22. The three things that affect thermal efficiency are:", options: ["Compression Ratio, Turbine Inlet Temperature (TIT), Efficiency of Compressor Turbine", "Fuel Flow, Compressor Speed, Altitude", "Bypass Ratio, Fan Diameter, Temperature", "Turbine RPM, Exhaust Temperature, Fuel Consumption"], answer: "Compression Ratio, Turbine Inlet Temperature (TIT), Efficiency of Compressor Turbine" },
+    { q: "23. What factors affect inlet air density?", options: ["Altitude, Temperature, Airspeed", "Fan Speed, Bypass Ratio, Pressure", "Compressor RPM, Thrust, Pressure", "Humidity, Exhaust Gas Temperature, Pressure"], answer: "Altitude, Temperature, Airspeed" },
+    { q: "24. What is ram recovery point?", options: ["Static pressure equals inlet air pressure", "Airspeed reaches Mach 1", "Thrust equals drag", "Fuel consumption stabilizes"], answer: "Static pressure equals inlet air pressure" },
+    { q: "25. What is propulsive efficiency?", options: ["Ratio of exhaust velocity to aircraft velocity", "Ratio of fuel flow to thrust", "Ratio of compressor pressure to inlet pressure", "Efficiency of fuel atomization"], answer: "Ratio of exhaust velocity to aircraft velocity" },
+    { q: "26. The stators in the cold section of the engine:", options: ["Increase pressure", "Increase velocity", "Regulate fuel flow", "Lower temperature"], answer: "Increase pressure" },
+    { q: "27. Bernoulli’s Principle states that:", options: ["An increase in velocity causes a decrease in pressure", "Force equals mass times acceleration", "Energy cannot be created or destroyed", "The total pressure remains constant"], answer: "An increase in velocity causes a decrease in pressure" },
+    { q: "28. The most efficient type of combustor is:", options: ["Can", "Annular", "Can-annular", "Reverse Flow"], answer: "Annular" },
+    { q: "29. Where does the air used to inflate tires come from?", options: ["Bleed air", "Oxygen tanks", "Nitrogen bottles", "Cabin pressurization system"], answer: "Nitrogen bottles" },
+    { q: "30. Newton’s Third Law states:", options: ["For every action, there is an equal and opposite reaction", "Energy cannot be created or destroyed", "Velocity equals distance over time", "An object in motion stays in motion"], answer: "For every action, there is an equal and opposite reaction" }
+];
+
+    function loadQuestions() {
+        const quizContainer = document.getElementById("questions");
+        questions.forEach((item, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.classList.add("question");
+            questionDiv.innerHTML = item.q;
+
+            const optionsDiv = document.createElement("div");
+            optionsDiv.classList.add("options");
+
+            item.options.forEach(option => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + (index + 1);
+                input.value = option;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + option));
+                optionsDiv.appendChild(label);
+            });
+
+            questionDiv.appendChild(optionsDiv);
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        questions.forEach((item, index) => {
+            const selectedOption = document.querySelector(`input[name="q${index + 1}"]:checked`);
+            if (selectedOption && selectedOption.value === item.answer) {
+                score++;
+            }
+        });
+
+        document.getElementById("result").innerText = "You scored " + score + " out of " + questions.length;
+    }
+
+    loadQuestions();
+</script>
+
+</body>
+</html>
